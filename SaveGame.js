@@ -244,7 +244,7 @@ function ImportData() {
     }
 }
 
-setInterval(saveData, 1000)
+setInterval(saveData, 5000)
 
 window.addEventListener('load', loadData)
 window.addEventListener('beforeunload', saveData)
