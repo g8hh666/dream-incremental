@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <head>
+        <title>Dream Incremental</title>
+    </head>
+
+    <body>
+        <div id="world1" class="world">
+            <h3 id="MemoriesDisplayTxt">Memory: 0 [+1/s]</h3>
+
+            <div class="tabContainer" style="width: 1250px;">
+                <button class="tab" onclick="displayContent('Settings')">Settings</button>
+                <button class="tab" onclick="displayContent('MemoryUpgrades')">Memory Upgrades</button>
+                <button class="tab" onclick="displayContent('DreamReset')" style="background-image: linear-gradient(purple, pink, purple); border-color: purple; display: none;" id="DreamifyTab">Dreamify</button>
+                <button class="tab" onclick="displayContent('DreamUpgrades')" style="background-image: linear-gradient(purple, pink, purple); border-color: purple; display: none;" id="DreamUpgsTab">Dream Upgrades</button>
+                <button class="tab" onclick="displayContent('RestReset')" style="background-image: linear-gradient(blue, lightblue, blue); border-color: blue; display: none;" id="RestResetTab">Rest</button>
+                <button class="tab" onclick="displayContent('LucidityReset')" style="background-image: linear-gradient(rgb(94, 94, 3), rgb(220, 220, 21), rgb(94, 94, 3)); border-color: yellow; display: none;" id="LucidityResetTab">Lucidify</button>
+                <button class="tab" onclick="displayContent('LucidityUpgrades')" style="background-image: linear-gradient(rgb(94, 94, 3), rgb(220, 220, 21), rgb(94, 94, 3)); border-color: yellow; display: none;" id="LucidityUpgradesTab">Lucid Dream Upgrades</button>
+                <button class="tab" onclick="displayContent('InfinitizeReset')" style="background-image: linear-gradient(darkred, red, darkred); border-color: red; display: none;" id="InfinitizeResetTab">Infinitize</button>
+                <button class="tab" onclick="displayContent('InfinitizeUpgrades')" style="background-image: linear-gradient(darkred, red, darkred); border-color: red; display: none;" id="InfinitizeUpgsTab">Infinitize Upgrades</button>
+                <button class="tab" onclick="displayContent('InfinitizeChallenges')" style="background-image: linear-gradient(darkred, red, darkred); border-color: red; display: none;" id="InfinitizeChallengesTab">Infinitize Challenges</button>
+            </div>
+
+            <div id="Settings" class="content" style="display: none;">
+                <h3 style="text-align: center;">Settings</h3>
+                <h3>Data</h3>
+                <button class="tab" style="border: 2px solid green; color: green;" onclick="saveData()">Save</button>
+                <button class="tab" style="border: 2px solid rgb(255, 0, 0); color: rgb(255, 0, 0);" onclick="resetData()">Hard Reset</button>
+                <button class="tab" style="border: 2px solid rgb(0, 255, 242); color: rgb(0, 255, 242);" onclick="ExportData()">Export Save</button>
+                <button class="tab" style="border: 2px solid rgb(0, 4, 255); color: rgb(0, 4, 255);" onclick="ImportData()">Import Save</button>
+
+                <h3>Automation</h3>
+                <button class="tab" id="MemoryUpgsAutobuyerEnabler" style="width: auto;" onclick="enableDisable('MemoryUpgsAutobuyer')">Memory Upgrades Autobuyer: ON</button>
+                <button class="tab" id="DreamUpgsAutobuyerEnabler" onclick="enableDisable('DreamUpgsAutobuyer')" style="border-color: purple; background-image: linear-gradient(purple, pink, purple); width: auto;">Dream Upgrades Autobuyer: ON</button>
+                <button class="tab" id="AutoRestEnabler" onclick="enableDisable('AutoRest')" style="border-color: blue; background-image: linear-gradient(blue, lightblue, blue); width: auto;">Auto Rest: ON</button>
+
+                <h3 id="TeleportSTitle">Teleport</h3><br>
+                <button class="tab" id="TeleportWorld2" style="display: none;" onclick="displayWorlds('world2')">World 2</button>
+            </div>
+
+            <div id="MemoryUpgrades" class="content" style="display: none;">
+                <h3>Memory Upgrades</h3>
+
+                <button class="BuyableBtn" id="MemoryBuyable1Btn" onclick="BuyUpg(1, 'Memory')">
+                    +100% Memories [0/100]<br>
+                    10 Memories
+                </button>
+
+                <button class="BuyableBtn" id="MemoryBuyable2Btn" onclick="BuyUpg(2, 'Memory')">
+                    2x Memories [0/50]<br>
+                    100 Memories
+                </button>
+                <br><br>
+
+                <button class="BuyableBtn" id="MemoryUpgrade1Btn" onclick="buyOneTimeUpg(1, 'Memory', 1000)" style="background-image: linear-gradient(purple, pink, purple); border-color: purple;">
+                    Unlock Dreams [0/1] [Permanent]<br>
+                    1000 Memories
+                </button>
+            </div>
+
+            <div class="content" id="DreamReset" style="display: none;">
+                <h3 style="color: purple;">Dreamify</h3>
+                <h3 style="color: purple">Dreamifying will reset your Memory and Memory Upgrades.</h3>
+                <s style="color: purple;">Wake up</s>
+                <h3 style="color: purple" id="CalcDreamsGainTxt">+0 Dreams on Reset</h3>
+                <button style="background-image: linear-gradient(purple, pink, purple); font-size: 20pt;" class="ResetLayerBtn" id="DreamifyResetBtn" onclick="DreamReset(false)">Dreamify</button>
+            </div>
+
+            <div class="content" id="DreamUpgrades" style="display: none;">
+                <h3 style="color: purple;" id="DreamsDisplayTxt">Dream Upgrades [0.00 Dreams]</h3>
+
+                <button class="BuyableBtn" id="DreamBuyable1Btn" style="background-image: linear-gradient(purple, pink, purple); border-color: purple;" onclick="BuyUpg(3, 'Dreams')">
+                    1.5x Memories [0/1000] <br>
+                    1 Dreams
+                </button>
+                <button class="BuyableBtn" id="DreamBuyable2Btn" style="background-image: linear-gradient(purple, pink, purple); border-color: purple;" onclick="BuyUpg(4, 'Dreams')">
+                    +50% Dreams [0/50] <br>
+                    3 Dreams
+                </button>
+                <br><br>
+                <button class="BuyableBtn" id="DreamUpgrade1Btn" style="background-image: linear-gradient(blue, lightblue, blue); border-color: blue;" onclick="buyOneTimeUpg(2, 'Dreams', 100)">
+                    Unlock Rest [0/1] [Permanent] <br>
+                    100 Dreams
+                </button>
+            </div>
+
+            <div class="content" id="RestReset" style="color: blue; display: none;">
+                <h3>Rest</h3>
+                <h3>Resting will reset all Memory and Memory Upgrades (except permanent) and also all Dream and Dream Upgrades</h3>
+                <h3 id="RestReqTxt" style="color: purple;">You need 100 Dreams</h3>
+                <button class="ResetLayerBtn" id="RestResetBtn" style="background-image: linear-gradient(blue, lightblue, blue); border-color: blue; font-size: 20pt;" onclick="RestReset(false)">Rest</button>
+
+                <h3 id="RestsDisplayTxt">Rest Milestones [Rests: 0]</h3>
+
+                <div style="overflow-y: auto; text-align: center; height: 250px;">
+                    <h4 class="milestone" id="RestMilestone1" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        1 Rest<br>
+                        2x Memories, 1.5x Dreams
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone2" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        2 Rests<br>
+                        +25% Dreams per Rest starting at 2 Rests
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone3" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        3 Rests<br>
+                        5x Memories, 2x Dreams, passively generate 1% of Dreams per second.
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone4" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        4 Rests<br>
+                        10x Memories.
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone5" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        8 Rests<br>
+                        Automate Memory Upgrades.
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone6" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        13 Rests<br>
+                        Automate Dream Upgrades but 1.5x Rest Scalings.
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone7" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        20 Rests<br>
+                        3x Dreams and Memories but 1.6x Rest Scalings.
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone8" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        21 Rests<br>
+                        10x Memories and 5x Dreams
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone9" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        24 Rests<br>
+                        +100 Memory Buyable 2 Cap.
+                    </h4>
+                    <h4 class="milestone" id="RestMilestone10" style="border: 3px solid blue; background-image: linear-gradient(blue, lightblue, blue);">
+                        30 Rests<br>
+                        Unlock the next layer. 1e100x Rest scalings.
+                    </h4>
+                </div>
+            </div>
+
+            <div id="LucidityReset" class="content" style="color: yellow; display: none;">
+                <h3>Lucidify</h3>
+                <h3>Lucidifying will reset Everything before this.</h3>
+                <h3 id="LucidifyGainTxt">+0 Lucid Dreams</h3>
+                <button id="LucidifyResetBtn" class="ResetLayerBtn" style="background-image: linear-gradient(rgb(94, 94, 3), rgb(220, 220, 21), rgb(94, 94, 3)); border-color: yellow; font-size: 18pt;" onclick="LucidDreamReset(false)">Lucidify</button>
+
+                <br><br>
+                <div id="LucidEnergyContent" style="display: none;">
+                    <h3 style="color: orange;" id="LucidEnergyTxtDisplay">Lucid Energy Milestones [0 Lucid Energy [+1/s]]</h3>
+
+                    <div style="overflow-y: auto; height: 250px;">
+                        <h4 class="milestone" id="LucidEnergyMilestone1" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            25 Lucid Energy <br>
+                            2x Lucid Energy
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone2" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            100 Lucid Energy <br>
+                            10x Lucid Energy
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone3" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            500 Lucid Energy <br>
+                            1.25x Lucid Dreams, 3x Dreams
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone4" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            1,000 Lucid Energy <br>
+                            100x Lucid Energy, 10x Memories
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone5" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            50,000 Lucid Energy <br>
+                            1,000x Lucid Energy, 50x Memories
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone6" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            50,000,000 Lucid Energy <br>
+                            ^1.3 Lucid Energy, 333.3x Memories
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone7" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            1e10 Lucid Energy <br>
+                            ^2 Lucid Energy
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone8" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            1e18 Lucid Energy <br>
+                            1e9x Lucid Energy, 10,000x Memories <br>
+                            <s>remember.</s>
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone9" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            1e27 Lucid Energy <br>
+                            1e20x Lucid Energy, ^1.25 Memories <br>
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone10" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            1e47 Lucid Energy <br>
+                            1e45x Lucid Energy, 100x Dreams, 10x Lucid Dreams<br>
+                        </h4>
+                        <h4 class="milestone" id="LucidEnergyMilestone11" style="border: 3px solid orange; background-image: linear-gradient(rgb(150, 84, 4), orange, rgb(150, 84, 4));">
+                            2e92 Lucid Energy <br>
+                            1e100x Lucid Energy, ^1.25 Memories<br>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div id="LucidityUpgrades" class="content" style="color: yellow; display: none;">
+                <h3 id="LucidDreamsDisplayTxt">Lucid Dream Upgrades [0 Lucid Dreams]</h3>
+
+                <button class="BuyableBtn" id="LucidDreamBuyable1" style="background-image: linear-gradient(rgb(94, 94, 3), rgb(220, 220, 21), rgb(94, 94, 3)); border-color: yellow;" onclick="BuyUpg(5, 'LucidDreams')">
+                    5x Memories [0/200] <br>
+                    1 Lucid Dreams
+                </button>
+                <button class="BuyableBtn" id="LucidDreamBuyable2" style="background-image: linear-gradient(rgb(94, 94, 3), rgb(220, 220, 21), rgb(94, 94, 3)); border-color: yellow;" onclick="BuyUpg(6, 'LucidDreams')">
+                    3x Dreams [0/200] <br>
+                    1.5 Lucid Dreams
+                </button>
+                <button class="BuyableBtn" id="LucidDreamBuyable3" style="background-image: linear-gradient(rgb(94, 94, 3), rgb(220, 220, 21), rgb(94, 94, 3)); border-color: yellow;" onclick="BuyUpg(7, 'LucidDreams')">
+                    +1 Rest bulk [0/5] <br>
+                    3 Lucid Dreams
+                </button>
+                <br><br>
+                <button class="BuyableBtn" id="LucidDreamUpgrade1" style="background-image: linear-gradient(rgb(188, 104, 0), orange, rgb(188, 104, 0)); border-color: orange;" onclick="buyOneTimeUpg(3, 'LucidDreams', 5)">
+                    Unlock Lucid Energy [0/1] <br>
+                    5 Lucid Dreams
+                </button>
+            </div>
+
+            <div id="InfinitizeReset" class="content" style="color: red; display: none;">
+                <h1 id="InfinitiesDisplayTxt">Infinitize [0 Infinities]</h1>
+                <p>You reached your Memory limit, all your memories will be converted to Infinite Memories</p>
+                <p>Resets everything (yes, everything) at this point</p>
+                <h3 id="InfinityDreamsCalcGainTxt">In return, +0 Infinity Dreams</h3>
+                <button class="ResetLayerBtn" id="InfinitizeRLBtn" onclick="InfinitizeReset(false)" style="border-color: red; background-image: linear-gradient(darkred, red, darkred); font-size: 15pt;">Infinitize</button>
+                
+                <h3>Infinity Milestones</h3>
+                <div style="height: 200px; overflow-y: auto;">
+                    <h4 class="milestone" id="InfinityMilestone1" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        1 Infinity <br><br>
+
+                        3x Memories <br>
+                        2.5x Dreams <br>
+                        +100% Lucid Dreams per Infinitize <br>
+                        +1 Rest Bulk <br><br>
+                    </h4>
+                    <h4 class="milestone" id="InfinityMilestone2" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        2 Infinities <br><br>
+
+                        1.5x Lucid Dreams <br>
+                        10x Memories <br>
+                        Dreams Reset nothing <br><br>
+                    </h4>
+                    <h4 class="milestone" id="InfinityMilestone3" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        3 Infinities <br><br>
+
+                        Unlock Infinity Challenges <br>
+                        2x Lucid Energy <br><br>
+                    </h4>
+                    <h4 class="milestone" id="InfinityMilestone4" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        5 Infinities <br><br>
+
+                        Automatically Rest if you have the Rest requirements. <br>
+                        10x Memories <br>
+                        5x Dreams <br><br>
+                    </h4>
+                    <h4 class="milestone" id="InfinityMilestone5" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        6 Infinities <br><br>
+                        ^1.1 Memories <br>
+                        10x Lucid Energy <br><br>
+                    </h4>
+                    <h4 class="milestone" id="InfinityMilestone6" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        8 Infinities <br><br>
+                        +2 Rest Bulk <br>
+                        ^3.5 Dreams<br><br>
+                    </h4>
+                    <h4 class="milestone" id="InfinityMilestone7" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        10 Infinities <br><br>
+                        1.5x Infinity Dreams <br>
+                        <p style="color: transparent; background-image: linear-gradient(white, orange, white); -webkit-background-clip: text; background-clip: text;">Break Infinity</p>
+                    </h4>
+                    <h4 class="milestone" id="InfinityMilestone8" style="height: auto; border-color: red; background-image: linear-gradient(darkred, red, darkred);">
+                        13 Infinities <br><br>
+                        Unlock ??? <br><br>
+                    </h4>
+                </div>
+            </div>
+            
+            <div class="content" id="InfinitizeUpgrades" style="color: red; display: none;">
+                <h3 id="InfDreamsDisplayTxt">Infinity Dreams Upgrades [0 Infinity Dreams]</h3>
+
+                <button class="BuyableBtn" id="InfinityDreamsBuyable1" style="background-image: linear-gradient(darkred, red, darkred); border-color: red; width: auto;" onclick="BuyUpg(8, 'InfinityDreams')">
+                    10x Memories, 8x Dreams [0/200] <br>
+                    1 Infinity Dreams
+                </button>
+            </div>
+
+            <div class="content" id="InfinitizeChallenges" style="display: none; color: red;">
+                <h3>Infinity Challenges</h3>
+                <p>Warning: Entering/Exitting a Challenge performs a Infinitize Reset</p>
+
+                <div>
+                    <button class="ChallengeBtn" id="InfinityChallenge1" style="background-image: linear-gradient(darkred, red, darkred); border-color: red;" onclick="startChallenge('Memory Deficiency I', 'Memory Deficiency I'); InfinitizeReset(true, true)">
+                        Memory Deficiency I <br>
+                        ^0.6 Memories <br><br>
+                        Goal: 1.79e308 Memories <br>
+                        Reward: 3x Memories <br><br>
+                        <p id="InfChallenge1txt">Start Challenge</p>
+                    </button>
+                    <button class="ChallengeBtn" id="InfinityChallenge2" style="background-image: linear-gradient(darkred, red, darkred); border-color: red; display: none;" onclick="startChallenge('Forgotten', 'Forgotten'); InfinitizeReset(true, true)">
+                        Forgotten <br>
+                        ^0.4 Dreams <br><br>
+                        Goal: 1.79e308 Memories <br>
+                        Reward: 10x Dreams <br><br>
+                        <p id="InfChallenge2txt">Start Challenge</p>
+                    </button> <br><br>
+                    <section id="worldsSection" style="display: none;">
+                        <s style="color: black;">????</s><br>
+                        <button class="ChallengeBtn" id="InfinityChallenge3" style="background-image: linear-gradient(darkgray, black, darkgray); border-color: rgb(0, 0, 0);" onclick="displayWorlds('world2')">
+                            <s>World 2</s> <br>
+                            ERROR <s>You cant turn back</s> <br><br>
+                            Goal: ??? <br>
+                            Reward: ??? <br><br>
+                            <p id="InfChallenge3txt">Start?</p>
+                        </button> 
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div id="world2" class="world" style="display: none; color: black;">
+            <h3 id="voidDisplayTxt">Void: 0 [+1/s] [/1 Void]</h3>
+
+            <div class="tabContainer" style="width: 1250px;">
+                <button class="tab" onclick="displayContent('Settings')">Settings</button>
+                <button class="tab" onclick="displayContent('VoidUpgrades')" style="border-color: rgb(43, 43, 43);">Void Upgrades</button>
+                <button class="tab" id="ThinkResetTab" onclick="displayContent('ThinkReset')" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">Think</button>
+                <button class="tab" id="ThinkEnergyTab" onclick="displayContent('ThinkEnergy')" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">Thinking Energy</button>
+                <button class="tab" id="NightmareResetTab" onclick="displayContent('NightmareReset')" style="border-color: darkmagenta; background-image: linear-gradient(magenta, darkmagenta, magenta); display: none;">Nightmare</button>
+                <button class="tab" id="NightmareTrialsTab" onclick="displayContent('NightmareTrials')" style="border-color: darkmagenta; background-image: linear-gradient(magenta, darkmagenta, magenta); display: none;">Nightmare Trials</button>
+            </div>
+
+            <div id="Settings" class="content" style="display: none;">
+                <h3 style="text-align: center;">Settings</h3>
+                <h3>Data</h3>
+                <button class="tab" style="border: 2px solid green; color: green;" onclick="saveData()">Save</button>
+                <button class="tab" style="border: 2px solid rgb(255, 0, 0); color: rgb(255, 0, 0);" onclick="resetData()">Hard Reset</button>
+                <button class="tab" style="border: 2px solid rgb(0, 255, 242); color: rgb(0, 255, 242);" onclick="ExportData()">Export Save</button>
+                <button class="tab" style="border: 2px solid rgb(0, 4, 255); color: rgb(0, 4, 255);" onclick="ImportData()">Import Save</button>
+
+                <h3>Automation</h3>
+                <button class="tab" style="border: 2px solid rgb(43, 43, 43);" onclick="enableDisable('VoidUpgsAutobuyer')" id="VoidUpgsAutobuyEnabler">Auto Buy Void Upgrades: ON</button>
+
+                <h3 id="TeleportSTitle2">Teleport</h3><br>
+                <button class="tab" id="TeleportWorld1" style="display: none;" onclick="displayWorlds('world1')">World 1</button>
+            </div>
+
+            <div id="VoidUpgrades" class="content" style="display: none;">
+                <h3>Void Upgrades</h3>
+                <button id="VoidBuyable1" class="BuyableBtn" style="border-color: rgb(43, 43, 43);" onclick="BuyUpg(9, 'Void')">
+                    3x Void [0/100] <br>
+                    10 Void
+                </button>
+                <button id="VoidBuyable2" class="BuyableBtn" style="border-color: rgb(43, 43, 43);" onclick="BuyUpg(10, 'Void')">
+                    -^0.03 Void divider [0/5] <br>
+                    30 Void
+                </button><br><br>
+                <button id="VoidUpgrade1" class="BuyableBtn" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110));" onclick="buyOneTimeUpg('V1', 'Void', 300)">
+                    Unlock Thoughts [0/1] [Permanent] <br>
+                    300 Void
+                </button>
+            </div>
+
+            <div id="ThinkReset" class="content" style="display: none; color: rgb(0, 255, 183);">
+                <h2>Think</h2>
+                <h3>Thinking will reset your void and void Upgrades.</h3>
+                <h3 id="ThinkReqTxt" style="color: black;">You need 300 Void</h3>
+                <button class="ResetLayerBtn" id="ThinkResetBtn" style="font-size: 15pt; background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); border-color: rgb(0, 255, 183);" onclick="ThinkReset(false)">Think</button>
+
+                <h3 id="ThoughtsDisplayTxt">Thinking Milestones [0 Thoughts]</h3>
+
+                <div style="overflow-y: auto; height: 250px;">
+                    <h4 class="milestone" id="ThinkMilestone1" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110));">
+                        1 Thought <br>
+                        3x Void
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone2" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        2 Thoughts <br>
+                        -^0.01 Void divider
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone3" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        3 Thoughts <br>
+                        2x Void, Unlock Thinking Energy
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone4" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        4 Thoughts <br>
+                        5x Void, 2x Thinking Energy
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone5" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        8 Thoughts <br>
+                        -^0.14 Void divider, 3.5x Thinking Energy
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone6" style="height: auto; border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        9 Thoughts <br>
+                        negate Void divider but disable Void upgrade #2 and 100x Think scalings.
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone7" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        12 Thoughts <br>
+                        2x Thinking Energy and 10x Void.
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone8" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        15 Thoughts <br>
+                        Autobuy Void Upgrades (Just the first Upgrade).
+                    </h4>
+                    <h4 class="milestone" id="ThinkMilestone9" style="border-color: rgb(0, 255, 183); background-image: linear-gradient(rgb(43, 165, 110), rgb(0, 255, 183), rgb(43, 165, 110)); display: none;">
+                        20 Thoughts <br>
+                        ^1.1 Void, Unlock ???
+                    </h4>
+                </div>
+            </div>
+
+            <div id="ThinkEnergy" class="content" style="display: none;">
+                <h3 id="ThinkEnergyDisplayTxt" style="color: rgb(0, 255, 183);">Thinking Energy [0.00 Thinking Energy [+0.00/s]]</h3>
+                <h3 id="ThinkEnergyFirstBoostTxt">1.00x Void</h3>
+            </div>
+
+            <div id="NightmareReset" class="content" style="display: none; color: darkmagenta;">
+                <h2>Nightmare</h2>
+                <h3>Resets Everything before this point.</h3>
+                <h3 id="NightmareReqTxt">You need 1e56 Void</h3>
+
+                <button class="ResetLayerBtn" id="NightmaresResetBtn" style="font-size: 15pt; background-image: linear-gradient(magenta, darkmagenta, magenta); border-color: darkmagenta;" onclick="NightmareReset(false)">Nightmare</button>
+
+                <h3 id="NightmareDisplayTxt">Nightmare Milestones [0 Nightmares]</h3>
+                <section style="overflow-y: auto; height: 200px;">
+                    <h4 class="milestone" id="NightmareMilestone1" style="height: auto; border-color: darkmagenta; background-image: linear-gradient(magenta, darkmagenta, magenta);">
+                        1 Nightmare <br><br>
+                        /2 Memories <br>
+                        /2 Void <br>
+                        /3 Dreams <br>
+                        /2 Rest <br>
+                        Dreamify formula is improved ((Memories/10,000)^0.6) -> ((Memories/8,000)^0.65)<br>
+                        5x Memories if Memories are less than 1,000 <br><br>
+                    </h4>
+                    <h4 class="milestone" id="NightmareMilestone2" style="height: auto; border-color: darkmagenta; background-image: linear-gradient(magenta, darkmagenta, magenta);">
+                        2 Nightmares <br><br>
+                        /1.5 Lucid Dreams <br>
+                        1.5x Void if Void is less than 1e10 <br>
+                        3x Rest gain if Rest is less than 6 <br>
+                        /1.5 Dreams if Dreams are more than 1e30 <br>
+                        Improve heavily Lucid Dream formula<br><br>
+                    </h4>
+                    <h4 class="milestone" id="NightmareMilestone3" style="height: auto; border-color: darkmagenta; background-image: linear-gradient(magenta, darkmagenta, magenta); display: none;">
+                        3 Nightmares <br><br>
+                        Passively generates 1% of Lucid Dreams per second but /3 Lucid Dreams <br>
+                        /2 Lucid Energy <br><br>
+                    </h4>
+                    <h4 class="milestone" id="NightmareMilestone4" style="height: auto; border-color: darkmagenta; background-image: linear-gradient(magenta, darkmagenta, magenta); display: none;">
+                        4 Nightmares <br><br>
+                        /10 Memory and Dreams <br>
+                        100x Memory if Memory is less than 1e20 <br>
+                        Unlock a button in settings. <br>
+                        Unlock Trials <br><br>
+                    </h4>
+                </section>
+            </div>
+
+            <div class="content" id="NightmareTrials" style="display: none; color: darkmagenta;">
+                <h3>Nightmare Trials</h3>
+                <button id="NightmareTrial1Btn" onclick="startChallenge('NightmareTrial1', 'NightmareTrial1'); displayWorlds('TrialWorld');" class="ChallengeBtn" style="background-image: linear-gradient(magenta, darkmagenta, magenta); border-color: darkmagenta;">
+                    <h3>Nightmare Trial 1</h3>
+                    <h3>Goal: Complete it.</h3>
+                    <h3>Reward: 100x Void</h3>
+                    <p id="NightmareTrial1txt">Start Challenge</p>
+                </button>
+            </div>
+        </div>
+
+        <div id="TrialWorld" class="world" style="display: none;">
+            <h3 id="ShardDisplayTxt">Shards: 0 [+1/s] [0.00%]</h3>
+            <section>
+                <button class="tab" onclick="displayContent('Settings')">Settings</button>
+                <button class="tab" onclick="displayContent('UpgradeTree')">Upgrade Tree</button>
+            </section>
+
+            <div id="Settings" class="content" style="display: none;">
+                <h3 style="text-align: center;">Settings</h3>
+                <h3>Data</h3>
+                <button class="tab" style="border: 2px solid green; color: green;" onclick="saveData()">Save</button>
+                <button class="tab" style="border: 2px solid rgb(255, 0, 0); color: rgb(255, 0, 0);" onclick="resetData()">Hard Reset</button>
+                <button class="tab" style="border: 2px solid rgb(0, 255, 242); color: rgb(0, 255, 242);" onclick="ExportData()">Export Save</button>
+                <button class="tab" style="border: 2px solid rgb(0, 4, 255); color: rgb(0, 4, 255);" onclick="ImportData()">Import Save</button>
+
+                <h3>Automation</h3>
+            </div>
+
+            <div id="UpgradeTree" class="content" style="display: none; overflow-y: auto;">
+                <h3>Upgrade Tree</h3>
+                
+                <div class="UpgRow">
+                    <button class="UpgradeBtn" onclick="buyOneTimeUpg('#1', 'Shards', 10, Data.TrialsData)" id="TrialUpgrade#1">
+                        <h4>Doubled #1</h4>
+                        <p>2x Shards, simple.</p>
+                        <p id="#1CostTxt">10 Shards</p>
+                    </button>
+                </div>
+                <div class="UpgRow">
+                    <button class="UpgradeBtn" onclick="buyOneTimeUpg('#2', 'Shards', 50, Data.TrialsData)" id="TrialUpgrade#2">
+                        <h4>Tripled #2</h4>
+                        <p>3x Shards</p>
+                        <p id="#2CostTxt">50 Shards</p>
+                    </button>
+                    <button class="UpgradeBtn" onclick="buyOneTimeUpg('#3', 'Shards', 200, Data.TrialsData)" id="TrialUpgrade#3">
+                        <h4>Synergied #3</h4>
+                        <p>Shards boosts themselves</p>
+                        <p id="#3CostTxt">200 Shards</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <link rel="stylesheet" href="gameStyle/main.css">
+        <link rel="stylesheet" href="gameStyle/scrollableContent.css">
+        <script src="GameUtils/OmegaNum.js"></script>
+        <script src="GameUtils/FormatterNum.js"></script>
+        <script src="SaveGame.js"></script>
+        <script src="GameUtils/Manager.js"></script>
+        <script src="GameScripts/Memories.js"></script>
+        <script src="GameScripts/UnlockContent.js"></script>
+        <script src="GameScripts/Dreams.js"></script>
+        <script src="GameScripts/Rest.js"></script>
+        <script src="GameScripts/Settings.js"></script>
+        <script src="GameScripts/LucidDreams.js"></script>
+        <script src="GameScripts/Infinitize.js"></script>
+        <script src="GameScripts/World_2/Void.js"></script>
+        <script src="GameScripts/World_2/UnlockContentW2.js"></script>
+        <script src="GameScripts/World_2/Think.js"></script>
+        <script src="GameScripts/World_2/Nightmares.js"></script>
+        
+        <!-- Trials Script -->
+        <script src="GameScripts/World_2/Trials/Shards.js"></script>
+    </body>
+</html>
