@@ -878,7 +878,7 @@ var cnRegReplace = new Map([
     [/^\^([\d\.]+) Memories$/, '^$1 记忆'],
     [/^\^([\d\.]+) Lucid Dreams$/, '^$1 清醒梦境'],
     [/^\^([\d\.]+) Lucid Energy$/, '^$1 清醒能量'],
-    [/^([\d\.]+) Dreams$/, '梦境'],
+    [/^([\d\.]+) Dreams$/, '$1 梦境'],
     [/^([\d\.]+) Infinity$/, '$1 无限'],
     [/^([\d\.]+) Infinities$/, '$1 无限'],
     [/^([\d\.]+) Memories$/, '$1 记忆'],
