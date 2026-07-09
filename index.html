@@ -477,6 +477,7 @@
             <section>
                 <button class="tab" onclick="displayContent('Settings')">Settings</button>
                 <button class="tab" onclick="displayContent('UpgradeTree')">Upgrade Tree</button>
+                <button class="tab" id="EnergyTab" onclick="displayContent('EnergyContent')" style="border-color: darkkhaki; background-color: rgb(210, 210, 1); display: none;">Energy</button>                
             </section>
 
             <div id="Settings" class="content" style="display: none;">
@@ -578,7 +579,40 @@
                         <p>+^0.05 #3 Effect</p>
                         <p id="#13CostTxt">5 Prestige Points</p>
                     </button>
+                    <button class="UpgradeBtn" id="TrialUpgrade#14" onclick="buyOneTimeUpg('#14', 'PrestigePoints', 20, Data.TrialsData)" style="border-color: darkgreen; background-color: seagreen;">
+                        <h4>Synergied V #14</h4>
+                        <p>Prestige Points boost Shard Gain</p>
+                        <p id="#14CostTxt">20 Prestige Points</p>
+                    </button>
                 </div>
+                <div class="UpgRow">
+                    <button class="UpgradeBtn" id="TrialUpgrade#15" onclick="buyOneTimeUpg('#15', 'PrestigePoints', 50, Data.TrialsData)" style="border-color: darkkhaki; background-color: rgb(210, 210, 1);">
+                        <h4>Energetic #15</h4>
+                        <p>Unlock Energy</p>
+                        <p id="#15CostTxt">50 Prestige Points</p>
+                    </button>
+                </div>
+                <div class="UpgRow">
+                    <button class="UpgradeBtn" id="TrialUpgrade#16" onclick="buyOneTimeUpg('#16', 'Energy', 10, Data.TrialsData)" style="border-color: darkkhaki; background-color: rgb(210, 210, 1);">
+                        <h4>Energy is useful #16</h4>
+                        <p>1.5x Shards</p>
+                        <p id="#16CostTxt">10 Energy</p>
+                    </button>
+                    <button class="UpgradeBtn" id="TrialUpgrade#17" onclick="buyOneTimeUpg('#17', 'Energy', 30, Data.TrialsData)" style="border-color: darkkhaki; background-color: rgb(210, 210, 1);">
+                        <h4>Powerful #17</h4>
+                        <p>2x Energy</p>
+                        <p id="#17CostTxt">30 Energy</p>
+                    </button>
+                    <button class="UpgradeBtn" id="TrialUpgrade#18" onclick="buyOneTimeUpg('#18', 'Energy', 100, Data.TrialsData)" style="border-color: darkkhaki; background-color: rgb(210, 210, 1);">
+                        <h4>Prestigeful #18</h4>
+                        <p>1.25x Prestige Points</p>
+                        <p id="#18CostTxt">100 Energy</p>
+                    </button>
+                </div>
+            </div>
+
+            <div id="EnergyContent" class="content" style="display: none;">
+                <h3 id="EnergyDisplayTxt" style="color: yellow;">Energy: 0.00 [+1/s]</h3>
             </div>
         </div>
         
@@ -603,6 +637,7 @@
         <!-- Trials Script -->
         <script src="GameScripts/World_2/Trials/Shards.js"></script>
         <script src="GameScripts/World_2/Trials/Prestige.js"></script>
+        <script src="GameScripts/World_2/Trials/Energy.js"></script>
 <!--客服 开始-->
 <script src="//g8hh.github.io/static/js/jquery.min.js"></script>
 <link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
@@ -620,6 +655,5 @@ var _hmt = _hmt || [];
 })();
 </script>
     </div>
-
     </body>
 </html>
