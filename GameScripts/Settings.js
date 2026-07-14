@@ -7,6 +7,7 @@ let voidUpgsAutobuyEnabler = document.getElementById("VoidUpgsAutobuyEnabler")
 
 // Trial World
 let shardUpgsAutobuyerEnabler = document.getElementById("ShardsUpgsAutobuyEnabler")
+let prestigeUpgsAutobuyerEnabler = document.getElementById("PrestigeUpgsAutobuyEnabler")
 
 // Teleports
 let TeleportSTitle = document.getElementById("TeleportSTitle")
@@ -34,8 +35,11 @@ function updateHtmlSettings() {
     TeleportSTitle2.style.display = (hasMilestone('NightmareMilestone4', 'World2')) ? "inline-block" : "none"
     W1Teleporter.style.display = (hasMilestone('NightmareMilestone4', 'World2')) ? "inline-block" : "none"
 
-    shardUpgsAutobuyerEnabler.style.display = (Data.Automation.includes("ShardsUpgAutobuy")) ? "inline-block" : "none"
+    shardUpgsAutobuyerEnabler.style.display = (Data.TrialsData.Automation.includes("ShardsUpgAutobuy")) ? "inline-block" : "none"
     shardUpgsAutobuyerEnabler.textContent = (Data.Settings.TrialShardUpgradesAutobuyer == true) ? "Shards Upgrades Autobuyer: ON" : "Shards Upgrades Autobuyer: OFF"
+
+    prestigeUpgsAutobuyerEnabler.style.display = (Data.TrialsData.Automation.includes("PrestigeUpgsAutobuyer")) ? "inline-block" : "none"
+    prestigeUpgsAutobuyerEnabler.textContent = (Data.Settings.TrialPrestigeUpgradesAutobuyer == true) ? "Prestige Upgrades Autobuyer: ON" : "Prestige Upgrades Autobuyer: OFF"
 }
 
 function updateHtmlSettingsW2() {

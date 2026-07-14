@@ -109,6 +109,7 @@ var Data = {
 
         // Trials
         TrialShardUpgradesAutobuyer: true,
+        TrialPrestigeUpgradesAutobuyer: true,
     },
 
     Caps: {
@@ -135,6 +136,8 @@ var Data = {
         PrestigePoints: new OmegaNum(0),
         Energy: new OmegaNum(0),
         RebirthPoints: new OmegaNum(0),
+        AscensionPoints: new OmegaNum(0),
+        SuperEnergy: new OmegaNum(0),
 
         Automation: [],
     }
@@ -168,23 +171,42 @@ function saveData() {
 }
 
 function fixSave(data, template) {
-    if (data === undefined || data === null) return deepCopy(template);
-
     for (let key in template) {
-        if (template[key] instanceof OmegaNum && data[key] === undefined) {
-            data[key] = new OmegaNum(template[key])
+        if (template[key] instanceof OmegaNum) {
+            if ((data[key] === undefined || data[key] === null)) {
+                data[key] = new OmegaNum(template[key])
+            }
+            else if (!(data[key] instanceof OmegaNum)) {
+                data[key] = new OmegaNum(data[key])
+            }
         }
 
-        else if (typeof template[key] === 'object' && template[key] !== null) {
-            let isArr = Array.isArray(template[key])
-            if (typeof data[key] !== 'object' || data[key] === null) {
-                data[key] = isArr ? [] : {}
+        else if (Array.isArray(template[key])) {
+            if (!Array.isArray(data[key])) {
+                data[key] = []
             }
-            data[key] = fixSave(data[key], template[key])
+
+            let subKeyData = data[key];
+            let subKeyTemplate = template[key];
+            
+            for (let i = 0; i < subKeyTemplate.length; i++) {
+                data[key][i] = fixSave(subKeyData[i], subKeyTemplate[i]);
+            }
+            
+            continue;
+        }
+
+        else if (typeof template[key] === 'object' && (template[key] !== undefined && template[key] !== null)) {
+            if (typeof data[key] !== 'object' || (data[key] === null || data[key] === undefined)) {
+                data[key] = {}
+            }
+            fixSave(data[key], template[key]);
         }
 
         else if (data[key] === undefined || data[key] === null) {
-            data[key] = template[key]
+            if (template[key] !== undefined && template[key] !== null) {
+                data[key] = template[key]
+            }
         }
     }
     return data;
@@ -197,6 +219,7 @@ function loadData() {
         try {
             let d = JSON.parse(decodeURIComponent(escape(atob(save))))
             Data = fixSave(d, Template)
+            
             displayWorlds(Data.isInWorld)
 
             console.log("Your data was loaded!")

@@ -16,6 +16,12 @@ function ShardSynergyBoostCalc() {
     return OmegaNum.add(1, Data.TrialsData.Shards.pow(exp));
 }
 
+function ShardRebirthSynergyCalc() {
+    let exp = new OmegaNum(0.5);
+
+    return OmegaNum.add(1, Data.TrialsData.RebirthPoints.pow(exp));
+}
+
 function ShardPrestigeSynergyCalc() {
     let exp = new OmegaNum(0.3);
     if (Data.Upgrades.includes('#24')) exp = exp.add(0.05);
@@ -38,6 +44,10 @@ function calcShardMult() {
     if (Data.Upgrades.includes('#14')) mult = mult.times(ShardPrestigeSynergyCalc());
     if (Data.Upgrades.includes('#16')) mult = mult.times(1.5);
     if (Data.Upgrades.includes('#22')) mult = mult.times(5);
+    if (Data.Upgrades.includes('#25')) mult = mult.times(8);
+    if (Data.Upgrades.includes('#29')) mult = mult.times(ShardRebirthSynergyCalc());
+    if (hasMilestone('AscensionMilestone1', 'Trials')) mult = mult.times(5);
+    if (hasMilestone('AscensionMilestone3', 'Trials') && Data.TrialsData.AscensionPoints.gte(3)) mult = mult.times(OmegaNum.pow(2, Data.TrialsData.AscensionPoints.sub(2))) 
     
     return mult;
 }
